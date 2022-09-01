@@ -1,7 +1,45 @@
 <?php
-$form_quantity = $_POST['form_quantity'];
-$form_price = $_POST['form_price'];
-$total = $form_quantity * $form_price;
+session_start();
+
+if(isset($_POST["action_add_to_cart"]) && !empty($_POST["action_add_to_cart"])){
+    $form_image = $_POST['form_image'];
+    $form_name = $_POST['form_name'];
+    $form_code = $_POST['form_code'];
+    $form_quantity = $_POST['form_quantity'];
+    $form_price = $_POST['form_price'];
+    $total = $form_quantity * $form_price;
+
+    if(!isset($_SESSION["shopping_cart"])){
+        $_SESSION["shopping_cart"] = [];
+    }
+
+    $arrShoppingCart = $_SESSION["shopping_cart"];
+
+    $arrShoppingCart[] = [
+        "form_image" => $form_image,
+        "form_name" => $form_name,
+        "form_code" => $form_code,
+        "form_quantity" => $form_quantity,
+        "form_price" => $form_price,
+    ];
+
+    $_SESSION["shopping_cart"] = array_values($arrShoppingCart);
+
+}
+
+if(isset($_POST["form_delete_session"]) && !empty($_POST["form_delete_session"])){
+    unset($_SESSION["shopping_cart"]);
+}
+
+if(isset($_POST["form_delete_individual_item"]) && !empty($_POST["form_delete_individual_item"])){
+    $index = $_POST["form_delete_id"];  
+    $arrShoppingCart = $_SESSION["shopping_cart"];
+    unset($arrShoppingCart[$index]);
+    $_SESSION["shopping_cart"] = array_values($arrShoppingCart);
+    
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -10,19 +48,21 @@ $total = $form_quantity * $form_price;
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/9005a12b78.js" crossorigin="anonymous"></script>
     <title>cart</title>
     <style>
         .container{
-            width: 600px;
+            width: 800px;
             height: auto;
             margin: auto auto;
         }
         .cart{
             width: 100%:
         }
+        .cart_image{
+            width: 20%;
+        }
         .cart_name{
-            width: 40%;
+            width: 30%;
         }
         .cart_code{
             width: 5%;
@@ -31,16 +71,21 @@ $total = $form_quantity * $form_price;
             width: 5%;
         }
         .cart_price{
-            width: 20%;
+            width: 15%;
         }
         .cart_total{
-            width: 20%;
+            width: 15%;
         }
         .cart_remove{
             width: 10%;
         }
         td{
             text-align: center;
+        }
+        .send_image{
+            object-fit: cover;
+            width: 100%;
+            height: 50px;
         }
         .catalog-above{
             width: 100%;
@@ -73,10 +118,16 @@ $total = $form_quantity * $form_price;
 </head>
 <body>
     <div class="container">
+        <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+            <input type="submit" name="form_delete_session" value="clear cart">
+        </form>
+
+
         <p>Shopping Cart</p>
         <div class="cart">
             <table class="cart_table">
                 <tr>
+                    <th class="cart_image">Image</th>
                     <th class="cart_name">Name</th>
                     <th class="cart_code">Code</th>
                     <th class="cart_quantity">Quantity</th>
@@ -84,14 +135,36 @@ $total = $form_quantity * $form_price;
                     <th class="cart_total">Total<br />(in $)</th>
                     <th class="cart_remove">Remove</th>
                 </tr>
-                <tr>
-                    <td><?php echo $_POST['form_name']; ?></td>
-                    <td><?php echo $_POST['form_code']; ?></td>
-                    <td><?php echo $_POST['form_quantity']; ?></td>
-                    <td><?php echo $_POST['form_price']; ?></td>
-                    <td><?php printf ("%.2f", $total) ?></td>
-                    <td class="form-button"><button>-</button></td>
-                </tr>
+
+                <?php
+                if(isset($_SESSION["shopping_cart"])){
+                    $arrCartItems = $_SESSION["shopping_cart"];
+                    $arrCartItems = array_values($arrCartItems);
+                    for($i=0; $i < count($arrCartItems); $i++) {
+                ?>
+                
+                    <tr>
+                        <td><img src="<?php echo $arrCartItems[$i]["form_image"]; ?>" width="100" height="100" alt=""></td>
+                        <td><?php echo $arrCartItems[$i]["form_name"]; ?></td>
+                        <td><?php echo $arrCartItems[$i]["form_code"]; ?></td>
+                        <td><?php echo $arrCartItems[$i]["form_quantity"]; ?></td>
+                        <td><?php echo $arrCartItems[$i]["form_price"]; ?></td>
+                        <td><?php printf ("%.2f", $arrCartItems[$i]["form_price"] * $arrCartItems[$i]["form_quantity"]); ?></td>
+                        <td class="form-button">
+                            <form method="POST" action="">
+                                <input type="hidden" name="form_delete_id" value="<?php echo $i; ?>">
+                                <input type="submit" name="form_delete_individual_item" value="-">
+                            </form>
+                        </td>
+                    </tr>
+
+                <?php
+                    }
+                }
+                ?>
+
+                
+                
             </table>
 
 
@@ -111,11 +184,12 @@ $total = $form_quantity * $form_price;
                         </div>
                         <div class="detail-right">
                         <form action="<?php $_SERVER['PHP_SELF']; ?>" method="post">
+                                <input type="hidden" name="form_image" value="https://www.sony.com.ph/image/a9bd3d4cc0dac35199d6d92078bfe331?fmt=pjpeg&bgcolor=FFFFFF&bgc=FFFFFF&wid=2515&hei=1320">
                                 <input type="hidden" name="form_name" value="FinePix Pro2 3D Camera">
                                 <input type="hidden" name="form_code" value="A">
                                 <input type="number" name="form_quantity">
                                 <input type="hidden" name="form_price" value="1500.00">
-                                <input type="submit" value="Add to Cart">
+                                <input type="submit" value="Add to Cart" name="action_add_to_cart">
                             </form>
                         </div>
                     </div>
@@ -129,11 +203,12 @@ $total = $form_quantity * $form_price;
                         </div>
                         <div class="detail-right">
                             <form action="<?php $_SERVER['PHP_SELF']; ?>" method="post">
+                                <input type="hidden" name="form_image" value="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKd8N2H0b1rqNDVfqnU-GjP-mlVa6TKITrMSgXQlIcsms-MrjWdy4E5IyOmb1ZKSkStPM&usqp=CAU">
                                 <input type="hidden" name="form_name" value="EXP Portable Hard Drive">
                                 <input type="hidden" name="form_code" value="B">
                                 <input type="number" name="form_quantity">
                                 <input type="hidden" name="form_price" value="800.00">
-                                <input type="submit" value="Add to Cart">
+                                <input type="submit" value="Add to Cart" name="action_add_to_cart">
                             </form>
                         </div>
                     </div>
@@ -149,11 +224,12 @@ $total = $form_quantity * $form_price;
                         </div>
                         <div class="detail-right">
                             <form action="<?php $_SERVER['PHP_SELF']; ?>" method="post" class="post">
+                                <input type="hidden" name="form_image" value="https://i.pinimg.com/736x/c2/0f/61/c20f615d48fef674f972c2ed0ba71996.jpg">
                                 <input type="hidden" name="form_name" value="Luxury Ultra thin Wrist Watch">
                                 <input type="hidden" name="form_code" value="C">
                                 <input type="number" name="form_quantity">
                                 <input type="hidden" name="form_price" value="300.00">
-                                <input type="submit" value="Add to Cart">
+                                <input type="submit" value="Add to Cart" name="action_add_to_cart">
                             </form>
                         </div>
                     </div>
@@ -167,11 +243,12 @@ $total = $form_quantity * $form_price;
                         </div>
                         <div class="detail-right">
                             <form action="<?php $_SERVER['PHP_SELF']; ?>" method="post">
+                                <input type="hidden" name="form_image" value="https://i.pinimg.com/originals/14/c2/19/14c2190795db6cd6dccafecaf11764d4.jpg">
                                 <input type="hidden" name="form_name" value="XP 1155 Intel Core Laptop">
                                 <input type="hidden" name="form_code" value="D">
                                 <input type="number" name="form_quantity">
                                 <input type="hidden" name="form_price" value="800.00">
-                                <input type="submit" value="Add to Cart">
+                                <input type="submit" value="Add to Cart" name="action_add_to_cart">
                             </form>
                         </div>
                     </div>
@@ -179,7 +256,7 @@ $total = $form_quantity * $form_price;
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="main.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="main.js"></script> -->
 </body>
 </html>
