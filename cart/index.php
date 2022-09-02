@@ -1,59 +1,4 @@
-<?php
-session_start();
-
-if(isset($_POST["action_add_to_cart"]) && !empty($_POST["action_add_to_cart"])){
-    $form_image = $_POST['form_image'];
-    $form_name = $_POST['form_name'];
-    $form_code = $_POST['form_code'];
-    $form_quantity = $_POST['form_quantity'];
-    $form_price = $_POST['form_price'];
-    $total = $form_quantity * $form_price;
-
-    if(!isset($_SESSION["shopping_cart"])){
-        $_SESSION["shopping_cart"] = [];
-    }
-
-    $arrShoppingCart = $_SESSION["shopping_cart"];
-
-    $arr_found_id = false;
-    
-    for($i=0; $i < count($arrShoppingCart); $i++){
-        $item = $arrShoppingCart[$i];
-        if($form_code == $item["form_code"]){
-            $arr_found_id = $i;
-        }
-    }
-    if($arr_found_id !== false){
-        $arrShoppingCart[$arr_found_id]['form_quantity'] = $arrShoppingCart[$arr_found_id]['form_quantity']+$form_quantity;
-        
-    } else {
-        $arrShoppingCart[] = [
-            "form_image" => $form_image,
-            "form_name" => $form_name,
-            "form_code" => $form_code,
-            "form_quantity" => $form_quantity,
-            "form_price" => $form_price,
-        ];
-    }
-
-    $_SESSION["shopping_cart"] = array_values($arrShoppingCart);
-
-}
-
-if(isset($_POST["form_delete_session"]) && !empty($_POST["form_delete_session"])){
-    unset($_SESSION["shopping_cart"]);
-}
-
-if(isset($_POST["form_delete_individual_item"]) && !empty($_POST["form_delete_individual_item"])){
-    $index = $_POST["form_delete_id"];  
-    $arrShoppingCart = $_SESSION["shopping_cart"];
-    unset($arrShoppingCart[$index]);
-    $_SESSION["shopping_cart"] = array_values($arrShoppingCart);
-    
-}
-
-
-?>
+<?php require_once 'cart.php' ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -97,8 +42,9 @@ if(isset($_POST["form_delete_individual_item"]) && !empty($_POST["form_delete_in
         }
         .send_image{
             object-fit: cover;
-            width: 100%;
+            width: 50px;
             height: 50px;
+            border-radius:50%;
         }
         .catalog-above{
             width: 100%;
@@ -157,7 +103,7 @@ if(isset($_POST["form_delete_individual_item"]) && !empty($_POST["form_delete_in
                 ?>
                 
                     <tr>
-                        <td><img src="<?php echo $arrCartItems[$i]["form_image"]; ?>" width="100" height="100" alt=""></td>
+                        <td><img src="<?php echo $arrCartItems[$i]["form_image"]; ?>" width="100" height="100" class="send_image" alt=""></td>
                         <td><?php echo $arrCartItems[$i]["form_name"]; ?></td>
                         <td><?php echo $arrCartItems[$i]["form_code"]; ?></td>
                         <td><?php echo $arrCartItems[$i]["form_quantity"]; ?></td>
@@ -197,7 +143,7 @@ if(isset($_POST["form_delete_individual_item"]) && !empty($_POST["form_delete_in
                         </div>
                         <div class="detail-right">
                         <form action="<?php $_SERVER['PHP_SELF']; ?>" method="post">
-                                <input type="hidden" name="form_image" value="https://www.sony.com.ph/image/a9bd3d4cc0dac35199d6d92078bfe331?fmt=pjpeg&bgcolor=FFFFFF&bgc=FFFFFF&wid=2515&hei=1320">
+                                <input type="hidden" name="form_image" value="https://www.sony.com.ph/image/a9bd3d4cc0dac35199d6d92078bfe331?fmt=pjpeg&bgcolor=FFFFFF&bgc=FFFFFF&wid=2515&hei=1320" class="img_camera" >
                                 <input type="hidden" name="form_name" value="FinePix Pro2 3D Camera">
                                 <input type="hidden" name="form_code" value="A">
                                 <input type="number" name="form_quantity">
@@ -269,7 +215,5 @@ if(isset($_POST["form_delete_individual_item"]) && !empty($_POST["form_delete_in
             </div>
         </div>
     </div>
-    <!-- <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="main.js"></script> -->
 </body>
 </html>
