@@ -149,16 +149,37 @@
         </table>
         <table class="table_bottom">
             <tr>
-                <form action="<?php $_SERVER['PHP_SELF']; ?>" method="post">
-                    <td class="input_text"><input type="text" name="text" class="input_field"></td>
-                    <td class="submit_button"><input type="submit" name="submit"></td>
+                <form action="<?php $_SERVER['PHP_SELF']; ?>" method="post" name="myForm" onsubmit="return validateForm()" required>
+                    <td class="input_text"><input type="text" name="text" class="input_field" id="text1" pattern=".*\S+.*"></td>
+                    <td class="submit_button"><input type="submit" value="Submit" name="submit"></td>
                 </form>
             </tr>
         </table>
     </div>
     
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript">
+        $(function(){
+        $('.checkbox').on('change',function(){
+        $(this).closest('form').submit();
+        })});
+        function validateForm() {
+        var x = document.forms["myForm"]["text"].value;
+        if (x == "" || x == null){
+            alert("Fill in the Form");
+            return false;
+        }
+        const text1 = document.getElementById('text1');
+
+        const func1 = () => {
+            if(!text1.value.trim()){
+                console.log('blankです');
+            } else {
+                console.log('blankではない');
+            }
+        }
+    }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 </body>
 </html>
