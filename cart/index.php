@@ -142,13 +142,14 @@
                             <div class="price">$1500.00</div>
                         </div>
                         <div class="detail-right">
-                        <form action="<?php $_SERVER['PHP_SELF']; ?>" method="post">
+                            <form action="<?php $_SERVER['PHP_SELF']; ?>" method="post" name="form1">
                                 <input type="hidden" name="form_image" value="https://www.sony.com.ph/image/a9bd3d4cc0dac35199d6d92078bfe331?fmt=pjpeg&bgcolor=FFFFFF&bgc=FFFFFF&wid=2515&hei=1320" class="img_camera" >
                                 <input type="hidden" name="form_name" value="FinePix Pro2 3D Camera">
                                 <input type="hidden" name="form_code" value="A">
-                                <input type="number" name="form_quantity">
+                                <input type="number" name="form_quantity" min="1" required="required" oninvalid="this.setCustomValidity('Buy Now.')"
+                                oninput="this.setCustomValidity('')">
                                 <input type="hidden" name="form_price" value="1500.00">
-                                <input type="submit" value="Add to Cart" name="action_add_to_cart">
+                                <input type="submit" value="Add to Cart" name="action_add_to_cart" required>
                             </form>
                         </div>
                     </div>
@@ -165,7 +166,8 @@
                                 <input type="hidden" name="form_image" value="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKd8N2H0b1rqNDVfqnU-GjP-mlVa6TKITrMSgXQlIcsms-MrjWdy4E5IyOmb1ZKSkStPM&usqp=CAU">
                                 <input type="hidden" name="form_name" value="EXP Portable Hard Drive">
                                 <input type="hidden" name="form_code" value="B">
-                                <input type="number" name="form_quantity">
+                                <input type="number" name="form_quantity" min="1" required="required" oninvalid="this.setCustomValidity('Buy Now.')"
+                                oninput="this.setCustomValidity('')">
                                 <input type="hidden" name="form_price" value="800.00">
                                 <input type="submit" value="Add to Cart" name="action_add_to_cart">
                             </form>
@@ -186,7 +188,8 @@
                                 <input type="hidden" name="form_image" value="https://i.pinimg.com/736x/c2/0f/61/c20f615d48fef674f972c2ed0ba71996.jpg">
                                 <input type="hidden" name="form_name" value="Luxury Ultra thin Wrist Watch">
                                 <input type="hidden" name="form_code" value="C">
-                                <input type="number" name="form_quantity">
+                                <input type="number" name="form_quantity" min="1" required="required" oninvalid="this.setCustomValidity('Buy Now.')"
+                                oninput="this.setCustomValidity('')">
                                 <input type="hidden" name="form_price" value="300.00">
                                 <input type="submit" value="Add to Cart" name="action_add_to_cart">
                             </form>
@@ -205,7 +208,8 @@
                                 <input type="hidden" name="form_image" value="https://i.pinimg.com/originals/14/c2/19/14c2190795db6cd6dccafecaf11764d4.jpg">
                                 <input type="hidden" name="form_name" value="XP 1155 Intel Core Laptop">
                                 <input type="hidden" name="form_code" value="D">
-                                <input type="number" name="form_quantity">
+                                <input type="number" name="form_quantity" min="1" required="required" oninvalid="this.setCustomValidity('Buy Now.')"
+                                oninput="this.setCustomValidity('')">
                                 <input type="hidden" name="form_price" value="800.00">
                                 <input type="submit" value="Add to Cart" name="action_add_to_cart">
                             </form>
