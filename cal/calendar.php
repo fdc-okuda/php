@@ -11,7 +11,7 @@ if(isset($_POST["add_calendar"]) && !empty($_POST["add_calendar"])){
    $form_title = $_POST['form_title'];
    $form_date = $_POST['form_date'];
    $form_textarea = $_POST['form_textarea'];
-   $form_image = $_POST['file'];
+   
    
    // only process if has valid date
    if(!empty($form_date)){
@@ -31,41 +31,49 @@ if(isset($_POST["add_calendar"]) && !empty($_POST["add_calendar"])){
 
         if (in_array($fileActualExt, $allowed)) {
             if ($fileError === 0){
-                if($fileSize < 500000000) {
+                if($fileSize < 50000) {
                     $fileNameNew = uniqid('', true).".".$fileActualExt;
                     $fileDestination = 'uploads/'.$fileNameNew;
                     move_uploaded_file($fileTmpName, $fileDestination);
-                } else {
-                    echo "Your file is too big!";
+                    // if there is no session date yet
+                    if(!isset($_SESSION[$form_date])){
+                        $_SESSION[$form_date] = [];
+                    }
+
+                    // セッションに情報を入れる
+                    $_SESSION[$form_date][] = [
+                        "title" => $form_title,
+                        "body" => $form_textarea,
+                        "date" => $form_date,
+                        "image" => $fileNameNew,
+                    ];
+            
                     header('Location: ./');
                     exit;
+
+                } else {
+                    $test_alert = "<script type='text/javascript'>alert('Your file is too big!');</script>";
+                    echo $test_alert;
+                    // echo "Your file is too big!";
+                    // header('Location: ./');
+                    // exit;
                 }
             } else {
-            echo "There was an error uploading your file!";
-            header('Location: ./');
-            exit;
+                $test_alert = "<script type='text/javascript'>alert('There was an error uploading your file!');</script>";
+                echo $test_alert;
+            // echo "There was an error uploading your file!";
+            // header('Location: ./');
+            // exit;
             }
         } else {
-            echo "You cannot upload files of this type!";
-            header('Location: ./');
-            exit;
+            $test_alert = "<script type='text/javascript'>alert('You cannot upload files of this type!');</script>";
+            echo $test_alert;
+            // echo "You cannot upload files of this type!";
+            // header('Location: ./');
+            // exit;
         }
 
-        // if there is no session date yet
-        if(!isset($_SESSION[$form_date])){
-            $_SESSION[$form_date] = [];
-        }
-
-        // セッションに情報を入れる
-        $_SESSION[$form_date][] = [
-            "title" => $form_title,
-            "body" => $form_textarea,
-            "date" => $form_date,
-            "image" => $fileNameNew,
-        ];
-   
-        header('Location: ./');
-        exit;
+        
 
     }
 }
