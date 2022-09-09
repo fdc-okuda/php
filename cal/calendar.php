@@ -93,26 +93,28 @@ function displayEventDates ($date) {
 
     for ($i = 0; $i < count($_SESSION[$date]); $i++) {
         $event = $_SESSION[$date][$i];
-?>  
-        <div class="day">
-            <img src="uploads/<?php echo $event["image"];?>" alt="" class="day_image">
-            <div class="day_title"><?php echo $event["title"]; ?></div>
-        </div>
-        <div class="today_right">   
-            <form method="POST" action="<?php $_SERVER['PHP_SELF']; ?>" class="edit_button">
-                <input type="submit" name="form_edit" value="&#xf044;" class="fa" style="height: 15px; padding-top: 0px; font-size: 80%; width: 15px; padding-left: 1px;">
-                <input type="hidden" name="form_edit_id" value="<?php echo $i; ?>">
-                <input type="hidden" name="form_edit_date" value="<?php echo $date; ?>">
-                <input type="hidden" name="form_edit_image " value="<?php echo $image; ?>">
-            </form>
+?>      
+        <div class="cal-plan">
+            <div class="day">
+                <img src="uploads/<?php echo $event["image"];?>" alt="" class="day_image">
+                <div class="day_title"><?php echo $event["title"]; ?></div>
+            </div>
+            <div class="day_icon">   
+                <form method="POST" action="<?php $_SERVER['PHP_SELF']; ?>" class="edit_button">
+                    <input type="submit" name="form_edit" value="&#xf044;" class="fa" style="height: 15px; padding-top: 0px; font-size: 80%; width: 15px; padding-left: 1px;">
+                    <input type="hidden" name="form_edit_id" value="<?php echo $i; ?>">
+                    <input type="hidden" name="form_edit_date" value="<?php echo $date; ?>">
+                    <input type="hidden" name="form_edit_image " value="<?php echo $image; ?>">
+                </form>
 
 
-            <form method="POST" action="<?php $_SERVER['PHP_SELF']; ?>" class="delete_btn">
-                <input type="submit" name="form_delete" value="&#xf1f8;" class="fa" style="height: 15px; padding-top: 0px; font-size: 80%; width: 15px; padding-left: 1px;">
-                <input type="hidden" name="form_delete_id" value="<?php echo $i; ?>">
-                <input type="hidden" name="form_delete_date" value="<?php echo $date; ?>">
-                <input type="hidden" name="form_edit_date" value="<?php echo $image; ?>">
-            </form>
+                <form method="POST" action="<?php $_SERVER['PHP_SELF']; ?>" class="delete_btn">
+                    <input type="submit" name="form_delete" value="&#xf1f8;" class="fa" style="height: 15px; padding-top: 0px; font-size: 80%; width: 15px; padding-left: 1px;">
+                    <input type="hidden" name="form_delete_id" value="<?php echo $i; ?>">
+                    <input type="hidden" name="form_delete_date" value="<?php echo $date; ?>">
+                    <input type="hidden" name="form_edit_date" value="<?php echo $image; ?>">
+                </form>
+            </div>
         </div>
 <?php
     }
@@ -136,7 +138,7 @@ function reminder ($date) {
                 <img src="<?php echo $top_img_edited; ?>" alt="" class="top_img_edited">
                 
                 <img src="uploads/. <?php $top_img ?>" alt=""> 
-                "<?php echo $event["title"]; ?>"
+                <span class="top_title"><?php echo $event["title"]; ?> </span>
                 <span class="top_body"><?php echo $event["body"]; ?></span>
             </div>
         </form>
