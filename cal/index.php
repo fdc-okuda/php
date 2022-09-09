@@ -182,7 +182,7 @@
                 <hr class="line">
             </div>
 
-            <h3 class="header">Keep Your Plan</h3>
+            <h3 class="header">What's Your Plan?</h3>
 
             <?php if ($is_edit == false){ ?>
             <form action="<?php $_SERVER['PHP_SELF']; ?>" class="submit-button" method="POST" enctype="multipart/form-data" >
