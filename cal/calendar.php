@@ -1,4 +1,5 @@
 <?php date_default_timezone_set ('Asia/Manila'); ?>
+<?php require_once 'index.php' ?>
 
 <?php 
 session_start();
@@ -31,7 +32,7 @@ if(isset($_POST["add_calendar"]) && !empty($_POST["add_calendar"])){
 
         if (in_array($fileActualExt, $allowed)) {
             if ($fileError === 0){
-                if($fileSize < 50000) {
+                if($fileSize < 5000000) {
                     $fileNameNew = uniqid('', true).".".$fileActualExt;
                     $fileDestination = 'uploads/'.$fileNameNew;
                     move_uploaded_file($fileTmpName, $fileDestination);
@@ -52,7 +53,7 @@ if(isset($_POST["add_calendar"]) && !empty($_POST["add_calendar"])){
                     exit;
 
                 } else {
-                    $test_alert = "<script type='text/javascript'>alert('Your file is too big!');</script>";
+                    $test_alert = "<script type='text/javascript'>alert('Your file size is too big!');</script>";
                     echo $test_alert;
                     // echo "Your file is too big!";
                     // header('Location: ./');
@@ -98,7 +99,7 @@ function displayEventDates ($date) {
         </div>
         <div class="today_right">   
             <form method="POST" action="<?php $_SERVER['PHP_SELF']; ?>" class="edit_button">
-                <input type="submit" name="form_edit" value="edit" style="height: 15px; margin-top: 1px; padding-top: 0px; font-size: 80%;">
+                <input type="submit" name="form_edit" value="&#xf044;" class="fa" style="height: 15px; padding-top: 0px; font-size: 80%; width: 15px; padding-left: 1px;">
                 <input type="hidden" name="form_edit_id" value="<?php echo $i; ?>">
                 <input type="hidden" name="form_edit_date" value="<?php echo $date; ?>">
                 <input type="hidden" name="form_edit_image " value="<?php echo $image; ?>">
@@ -106,7 +107,7 @@ function displayEventDates ($date) {
 
 
             <form method="POST" action="<?php $_SERVER['PHP_SELF']; ?>" class="delete_btn">
-                <input type="submit" name="form_delete" value="delete"  style="height: 15px; padding-top: 0px; font-size: 80%;">
+                <input type="submit" name="form_delete" value="&#xf1f8;" class="fa" style="height: 15px; padding-top: 0px; font-size: 80%; width: 15px; padding-left: 1px;">
                 <input type="hidden" name="form_delete_id" value="<?php echo $i; ?>">
                 <input type="hidden" name="form_delete_date" value="<?php echo $date; ?>">
                 <input type="hidden" name="form_edit_date" value="<?php echo $image; ?>">
@@ -133,7 +134,7 @@ function reminder ($date) {
 <?php
     }
 }
-}
+} 
 
 // echo "<pre>";
 // var_dump($_SESSION);
@@ -173,33 +174,90 @@ if(isset($_POST["form_edit"]) && !empty($_POST["form_edit"])){
 <!-- 編集後にsubmitボタンが押されたら -->
 <?php
 if(isset($_POST["edit_calendar"]) && !empty($_POST["edit_calendar"])){
-    $edited_title = $_POST["form_title"];
-    $edited_date = $_POST["form_date"];
-    $edited_textarea = $_POST["form_textarea"];
-    $edited_index = $_POST["edit_calendar_index"];
-    $edited_calendar_date = $_POST["edit_calendar_date"];
-    
-    
-    $cal = $_SESSION;
-    
-    if(isset($cal[$edited_calendar_date][$edited_index])){
-        if($edited_calendar_date != $edited_date){
-            $cal[$edited_date][] = [
-                "title" => $edited_title,
-                "body" => $edited_textarea,
-                "date" => $edited_date,
-              
-            ];
-            unset($cal[$edited_calendar_date][$edited_index]);
+
+        $file = $_FILES['edit_calendar_image'];
+
+        $fileNameEdited = $_FILES['edit_calendar_image']['name'];
+        $fileTmpNameEdited = $_FILES['edit_calendar_image']['tmp_name'];
+        $fileSizeEdited = $_FILES['edit_calendar_image']['size'];
+        $fileErrorEdited = $_FILES['edit_calendar_image']['error'];
+        $fileTypeEdited = $_FILES['edit_calendar_image']['type'];
+
+        $fileExtEdited = explode('.', $fileNameEdited);
+        $fileActualExtEdited = strtolower(end($fileExtEdited));
+
+        $allowedEdited = array('jpg', 'jpeg', 'png', 'pdf');
+
+        if (in_array($fileActualExtEdited, $allowedEdited)) {
+            if ($fileErrorEdited === 0){
+                if($fileSizeEdited < 5000000) {
+                    $fileNameNewEdited = uniqid('', true).".".$fileActualExtEdited;
+                    $fileDestinationEdited = 'uploads/'.$fileNameNewEdited;
+                    move_uploaded_file($fileTmpNameEdited, $fileDestinationEdited);
+
+                    //入力欄の日付とタイトルとテキスト
+                    $edited_title = $_POST["form_title"];
+                    $edited_date = $_POST["form_date"];
+                    $edited_textarea = $_POST["form_textarea"];
+
+                    $edited_index = $_POST["edit_calendar_index"];
+                    $edited_calendar_date = $_POST["edit_calendar_date"];
+
+                    $cal = $_SESSION;
+
+                    if(isset($cal[$edited_calendar_date][$edited_index])){
+
+                        if($edited_calendar_date != $edited_date){
+
+                            $cal[$edited_date][] = [
+                                "title" => $edited_title,
+                                "body" => $edited_textarea,
+                                "date" => $edited_date,
+                                "image" => $fileNameNewEdited,
+                            ];
+
+                            unset($cal[$edited_calendar_date][$edited_index]);
+
+                        } else {
+                            
+                            $cal[$edited_calendar_date][$edited_index] = [
+                                "title" => $edited_title,
+                                "body" => $edited_textarea,
+                                "date" => $edited_date,
+                                "image" => $fileNameNewEdited,
+                            ];
+
+                        }
+
+                        $_SESSION = ($cal);
+
+                    }
+            
+                    header('Location: ./');
+                    exit;
+
+                } else {
+                    $test_alert = "<script type='text/javascript'>alert('Your file size is too big!');</script>";
+                    echo $test_alert;
+                    // echo "Your file is too big!";
+                    // header('Location: ./');
+                    // exit;
+                }
+            } else {
+                $test_alert = "<script type='text/javascript'>alert('There was an error uploading your file!');</script>";
+                echo $test_alert;
+            // echo "There was an error uploading your file!";
+            // header('Location: ./');
+            // exit;
+            }
         } else {
-            $cal[$edited_calendar_date][$edited_index] = [
-                "title" => $edited_title,
-                "body" => $edited_textarea,
-                "date" => $edited_date,
-                
-            ];
+            $test_alert = "<script type='text/javascript'>alert('You cannot upload files of this type!');</script>";
+            echo $test_alert;
+            // echo "You cannot upload files of this type!";
+            // header('Location: ./');
+            // exit;
         }
-        $_SESSION = ($cal);
-    }
+
+    
 }
 ?>
