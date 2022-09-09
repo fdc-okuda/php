@@ -35,6 +35,7 @@ if(isset($_POST["add_calendar"]) && !empty($_POST["add_calendar"])){
                 if($fileSize < 5000000) {
                     $fileNameNew = uniqid('', true).".".$fileActualExt;
                     $fileDestination = 'uploads/'.$fileNameNew;
+                    
                     move_uploaded_file($fileTmpName, $fileDestination);
                     // if there is no session date yet
                     if(!isset($_SESSION[$form_date])){
@@ -117,8 +118,10 @@ function displayEventDates ($date) {
     }
 }
 
+// 当日の予定表示部分
 function reminder ($date) {
-    if(isset($_SESSION[$date])){
+    
+    if(!empty($_SESSION[$date])){
         //同じ日付にある予定の数だけforをくりかえす。
     for ($i = 0; $i < count($_SESSION[$date]); $i++) {
         $event = $_SESSION[$date][$i];
@@ -126,13 +129,21 @@ function reminder ($date) {
         <form action="<?php $_SERVER['PHP_SELF']; ?>" class="today">
             <div class="today_left">   
                 <!-- その日のうちの一つの予定のタイトルを取得し、表示する。 -->
+                <?php 
+                $top_img = $event["image"]; 
+                $top_img_edited = 'uploads/'.$top_img;
+                ?>
+                <img src="<?php echo $top_img_edited; ?>" alt="" class="top_img_edited">
+                
+                <img src="uploads/. <?php $top_img ?>" alt=""> 
                 "<?php echo $event["title"]; ?>"
                 <span class="top_body"><?php echo $event["body"]; ?></span>
             </div>
-            
         </form>
 <?php
     }
+} else {
+    echo "No Plans Yet.";
 }
 } 
 

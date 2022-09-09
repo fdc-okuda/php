@@ -17,6 +17,7 @@
         .container{
             margin-top: 20px;
             font-family: 'M PLUS Rounded 1c', sans-serif;
+            margin-bottom: 60px;
         }
         .header{
             margin-top: 30px;
@@ -25,8 +26,14 @@
         .table{
             table-layout: fixed;
         }
-        .t_reminder{
-            height: 50px;
+        .line{
+            margin-top: 6px;
+            color: #DEE2E6;
+            border-width: 1px;
+        }
+        .top_img_edited{
+            width: 10px;
+            height: 10px;
         }
         .input-above{
             width: 100%;
@@ -44,24 +51,27 @@
         }
         .title{
             width: 65%;
-            border: solid 1.5px #DEE2E6;
+            border: solid 1px #DEE2E6;
         }
         .date{
             width: 35%;
-            border: solid 1.5px #DEE2E6;
+            border: solid 1px #DEE2E6;
             color: #848484;
         }
         .textarea{
             width: 100%;
-            height: 100px;
+            height: 50px;
             font-family: 'M PLUS Rounded 1c', sans-serif;
-            border: solid 1.5px #DEE2E6;
+            border: solid 1px #DEE2E6;
         }
         .square{
             border: solid 1.5px #DEE2E6;
             width: 100%;
             height: 100px;
             margin-bottom: 50px;
+        }
+        th{
+            text-align: center;
         }
         td{
             height: 100px;
@@ -111,16 +121,14 @@
 
         <h3 class="header">Today's Schedule</h3>
 
-        <table class="table">
-            <tr>
-                <td class="t_reminder">
-                    <?php $timestamp = time();
-                        $day = date("Y-m-d", $timestamp);
-                        reminder("$day");
-                    ?>
-                </td>
-            </tr>   
-        </table>
+        <div class="t_sche">
+            <?php 
+                $timestamp = time();
+                $day = date("Y-m-d", $timestamp);
+                reminder($day);
+            ?>
+            <hr class="line">
+        </div>
 
         <h3 class="header">Keep Your Plan</h3>
 
@@ -131,7 +139,7 @@
                 <input type="date" class="date" name="form_date" required="required">
             </div>
             <div class="input-below">
-                <input type="textarea" class="textarea" name="form_textarea" required="required" placeholder="content">
+                <textarea class="textarea" name="form_textarea" required="required" placeholder="content"></textarea>
                 <input type="file" name="file" required="required">
                 <input type="submit" class="button" value="submit" type="submit" name="add_calendar" style="float: right;">   
             </div>
