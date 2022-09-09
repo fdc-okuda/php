@@ -110,35 +110,48 @@
             margin-bottom: 10px;
         }
         /* ▼メディアクエリ▼ */
-        /* @media(min-width: 880px){
+        @media(min-width: 880px){
         .cal-plan{
             display: flex;
             justify-content: flex-start;
+            /* position: relative; */
         }
         .day{
             display: flex;
             justify-content: flex-start;
+            position: relative;
+        }
+        .day_left {
+            display: flex;
+        
         }
         .day_icon{
             display: flex;
             margin-bottom: 5px;
             margin-left: 10px;
+            float: right;
+            /* position: absolute; */
+            /* right: 0;
+            top: 0; */
+            
         }
-    } */
-        /* @media(max-width: 879px){ */
+    } 
+        @media(max-width: 879px){
         .cal-plan{
             
         }
         .day{
             display: flex;
             justify-content: flex-start;
+            
         }
         .day_icon{
             display: flex;
             margin-bottom: 5px;
-            /* margin-left: 10px; */
+            margin-left: 15px;
+            margin-top: 2px;
         }
-    /* } */
+     }
         /* ▲メディアクエリ▲ */
         .top_body{
             margin-left: 10px;

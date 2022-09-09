@@ -94,6 +94,7 @@ function displayEventDates ($date) {
     for ($i = 0; $i < count($_SESSION[$date]); $i++) {
         $event = $_SESSION[$date][$i];
 ?>      
+
         <div class="cal-plan">
             <div class="day">
                 <img src="uploads/<?php echo $event["image"];?>" alt="" class="day_image">
