@@ -1,0 +1,111 @@
+.container{
+    width: 100%;
+}
+
+td{
+    text-align: center;
+}
+
+#above_table{
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid;
+}
+
+
+
+#above_tr{
+    width: 100%;
+    border: 1px solid;
+}
+
+#t_img{
+    width: 20%;
+    text-align: center;
+    border: 1px solid;
+}
+
+#t_name{
+    width: 20%;
+    text-align: center;
+    border: 1px solid;
+}
+
+#t_code{
+    width: 10%;
+    text-align: center;
+    border: 1px solid;
+}
+
+#t_quan{
+    width: 10%;
+    text-align: center;
+    border: 1px solid;
+}
+
+#t_price{
+    width: 15%;
+    text-align: center;
+    border: 1px solid;
+}
+
+#t_total{
+    width: 15%;
+    text-align: center;
+    border: 1px solid;
+}
+
+#t_remove{
+    width: 10%;
+    text-align: center;
+    border: 1px solid;
+}
+
+#below_tbody{
+    width: 100%;
+}
+
+#below_tr{
+    width: 100%;
+}
+
+#t_camera{
+    width: 50%;
+    height: auto;
+    border: black 1px solid;
+}
+
+.images{
+    text-align: center;
+}
+
+.image{
+    object-fit: contain;
+    width: auto;
+    height: 200px;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.p_info{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.p_left{
+    height: 100%;
+}
+
+.p_right{
+    height: 100%;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+h4{
+    margin: 10px 0px;
+}
