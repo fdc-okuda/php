@@ -92,9 +92,6 @@ if(isset($_POST['form_delete_indivisual_item']) && !empty($_POST['form_delete_in
     $d = $conn->prepare("DELETE FROM cart WHERE id = :id");
     $d->bindParam(':id', $id, PDO::PARAM_INT);
     $d->execute();
-    // $index = $_POST["form_delete_id"];
-    // $sql = "DELETE FROM cart WHERE id=$index";
-    // $conn->query($sql);
 }
 
 ?>
