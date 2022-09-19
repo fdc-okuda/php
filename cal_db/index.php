@@ -200,17 +200,18 @@
         <?php } ?>
 
         <?php if ($is_edit == true){ ?>
-        <form action="<?php $_SERVER['PHP_SELF']; ?>" class="submit-button" method="POST" enctype="multipart/form-data">
+        <form action="<?php $_SERVER['PHP_SELF']; ?>" name = 'edited_button' class="submit-button" method="POST" enctype="multipart/form-data">
                 <div class="input-above">
                     <input type="text" class="title" name="form_title" required="required" value = "<?php echo $edit_title ?>" placeholder="title">
                     <input type="date" class="date" name="form_date" required="required" value = "<?php echo $edit_date ?>">
                 </div>
                 <div class="input-below">
                     <textarea class="textarea" name="form_textarea" required="required"><?php echo $edit_body ?></textarea>
-                    <input type="submit" class="button" value="submit" type="submit" name="edit_calendar" style="float: right;">    
-                    <input type="hidden" value="<?php echo $date ?>" name="edit_calendar_date">
-                    <input type="hidden" value="<?php echo $index ?>" name="edit_calendar_index">
-                    <input type="file"  name="edit_calendar_image" required="required">
+                    <input type="submit" class="button" value="submit" type="submit" name="edited_calendar" style="float: right;">    
+                    <input type="hidden" value="<?php echo $edit_id ?>" name="edit_id">
+                    <!-- <input type="hidden" value="<?php echo $index ?>" name="edited_calendar_index"> -->
+                    <input type="hidden" value="<?php echo $edit_image_id; ?>" name="edited_image_id">
+                    <input type="file"  name="edited_calendar_image" required="required">
                 </div>
                 
         </form>
